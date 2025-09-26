@@ -4,18 +4,17 @@ import re
 
 def main():
        parser = argparse.ArgumentParser(description='File to read')
-<<<<<<< HEAD
+
        parser.add_argument('file_dir',type = str,help='File directory')
-=======
+       
        parser.add_argument('FileDir',type = str,help='File directory')
->>>>>>> dddcb49dee654443653d5abdd37adf0962a34e50
+       
        arg = parser.parse_args()
        words = []
        sentenses = []
        numbers = []
 
        try:
-<<<<<<< HEAD
               with open(arg.file_dir,'r',encoding="utf-8") as file:
                      #Чтение файла в переменную
                      file_content = file.read()
@@ -43,7 +42,7 @@ def main():
                      #Четвёртый пункт
                      numbers=re.findall(r'\b[1-9]+\b', file_content)                          
                      print(f"Количество чисел в тексте: {len(numbers)}")
-=======
+              
               with open(arg.FileDir,'r',encoding="utf-8") as file:
                      #Чтение файла в переменную
                      fileContent = file.read()
@@ -71,7 +70,7 @@ def main():
                      #Четвёртый пунктп
                      numbers=re.findall(r'\b[1-9]+\b',fileContent)                          
                      print(len(numbers))
->>>>>>> dddcb49dee654443653d5abdd37adf0962a34e50
+                     
 
                      #Пятый пункт
                      words_by_len = [0] * 100
@@ -96,10 +95,32 @@ def main():
                      print(f"Средняя длина слова = {average_word_len}")
 
                      #Седьмой пункт
-                     
+                     alph_freq_en = [0] * 26
+                     alph_cnt_en = 0
+                     alph_freq_ru = [0] * 32
+                     alph_cnt_ru = 0
+                     for c in fileContent:
+                            if c.isalpha():
+                                   if c.lower() == "ё":
+                                          continue
+                                   if ord('a') <= ord(c.lower()) <= ord('z'):
+                                          alph_freq_en[ord(c.lower()) - ord('a')] += 1
+                                          alph_cnt_en += 1
+                                   else:
+                                          alph_freq_ru[ord(c.lower()) - ord('а')] += 1
+                                          alph_cnt_ru += 1
+                     for i in range(len(alph_freq_en)):
+                            alph_freq_en[i] *= (100 / alph_cnt_en)
+                     for i in range(len(alph_freq_ru)):
+                            alph_freq_ru[i] *= (100 / alph_cnt_en)    
+                     print("Частоты букв:")
+                     for i in range(len(alph_freq_en)):
+                            print(f"{chr(ord('a') + i)} - {alph_freq_en[i]}%")
+                     for i in range(len(alph_freq_ru)):
+                            print(f"{chr(ord('а') + i)} - {alph_freq_ru[i]}%")
 
 
-
+                     #Восьмой пункт
 
                             
        except FileNotFoundError:
