@@ -3,19 +3,19 @@ import argparse
 import re
 
 def main():
-       parser = argparse.ArgumentParser(description='File to read')
+       import argparse
+import re
 
-       parser.add_argument('file_dir',type = str,help='File directory')
-       
+def main():
+       parser = argparse.ArgumentParser(description='File to read')
        parser.add_argument('FileDir',type = str,help='File directory')
-       
        arg = parser.parse_args()
        words = []
        sentenses = []
        numbers = []
 
        try:
-              with open(arg.file_dir,'r',encoding="utf-8") as file:
+              with open(arg.FileDir,'r',encoding="utf-8") as file:
                      #Чтение файла в переменную
                      file_content = file.read()
 
@@ -42,34 +42,6 @@ def main():
                      #Четвёртый пункт
                      numbers=re.findall(r'\b[1-9]+\b', file_content)                          
                      print(f"Количество чисел в тексте: {len(numbers)}")
-              
-              with open(arg.FileDir,'r',encoding="utf-8") as file:
-                     #Чтение файла в переменную
-                     fileContent = file.read()
-
-                     #Первый пункт
-                     print("количество символов с пробелами: ",len(fileContent))
-
-                     fileContentNoSpaces = fileContent.replace(" ",'')
-                     print("количество символов без пробелов: ",len(fileContentNoSpaces))
-
-                     #Второй пункт
-                     words=re.split(r"[.,-/?! ]",fileContent) 
-                     for word in words:
-                            if word == '':
-                                   words.pop(words.index(word))
-                     print(len(words))
-
-                     #Третий пункт
-                     sentenses=re.split(r"[.?!]",fileContent) 
-                     for word in sentenses:
-                            if word == '':
-                                   sentenses.pop(sentenses.index(word))                     
-                     print(len(sentenses))
-
-                     #Четвёртый пунктп
-                     numbers=re.findall(r'\b[1-9]+\b',fileContent)                          
-                     print(len(numbers))
                      
 
                      #Пятый пункт
@@ -99,7 +71,7 @@ def main():
                      alph_cnt_en = 0
                      alph_freq_ru = [0] * 32
                      alph_cnt_ru = 0
-                     for c in fileContent:
+                     for c in file_content:
                             if c.isalpha():
                                    if c.lower() == "ё":
                                           continue
@@ -121,6 +93,59 @@ def main():
 
 
                      #Восьмой пункт
+                     words_dict = dict()
+                     #Перечислены основные предлоги
+                     prepositions_ru = ["без", "в", "ввиду", "во", "для", "до", "за", "из", "из-за", "ко", "на", "о", "об", "около", "от", "по", "под", "при", "про", "ради", "с", "со", "у"]
+                     #Перечислены основные союзы
+                     conjunctions_ru = ["и", "или", "а", "но", "же", "что", "чтобы", "как", "когда", "где", "чтобы"]
+                     #Для английского соответсвенно
+                     prepositions_en = ["in", "at", "on", "under", "above", "between", "to", "into", "from", "through", "along", "across", "by", "before", "after", "ago", "since", "for", "during"]
+                     conjunctions_en = ["that", "as", "when", "if", "although", "and", "but", "or", "while", "where", "nor"]
+
+                     restricted = prepositions_ru + conjunctions_ru + prepositions_en + conjunctions_en
+                     for word in words:
+                            word = word.lower()
+                            if word in restricted:
+                                   continue
+                            if word in words_dict:
+                                   words_dict[word] += 1
+                            else:
+                                   words_dict[word] = 0
+                     
+                     top_10 = sorted(words_dict.items(), key=lambda item: item[1], reverse=True)[:10]
+                     print("Топ 10 самых частых слов:")
+                     for i in range(10):
+                            print(f"{i + 1}: {top_10[i][0]}")
+
+
+                     #Девятый пункт
+                     bigrams = dict()
+                     trigrams = dict()
+                     for i in range(len(words) - 1):
+                            bigram = words[i].lower() + ' ' + words[i + 1].lower()
+                            if bigram in bigrams:
+                                   bigrams[bigram] += 1
+                            else:
+                                   bigrams[bigram] = 0
+                     
+                     for i in range(len(words) - 2):
+                            trigram = words[i].lower() + ' ' + words[i + 1].lower() + ' ' + words[i + 2]
+                            if trigram in trigrams:
+                                   trigrams[trigram] += 1
+                            else:
+                                   trigrams[trigram] = 0
+                     
+                     top_10_bigrams = sorted(bigrams.items(), key=lambda item: item[1], reverse=True)[:10]
+                     top_10_trigrams = sorted(trigrams.items(), key=lambda item: item[1], reverse=True)[:10]
+                     print()
+                     print("Топ 10 самых частых биграмм:")
+                     for i in range(10):
+                            print(f"{i + 1}: {top_10_bigrams[i][0]}")
+                     print()
+                     print("Топ 10 самых частых триграмм:")
+                     for i in range(10):
+                            print(f"{i + 1}: {top_10_trigrams[i][0]}")
+
 
                             
        except FileNotFoundError:
