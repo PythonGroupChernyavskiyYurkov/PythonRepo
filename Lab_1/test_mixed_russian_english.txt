@@ -1,0 +1,10 @@
+English and Russian Test File
+
+English Section: Hello, World! This is a test file with both English and
+Russian symbols. Numbers: 1234567890 Symbols: !@#$%^&*()
+
+Русский раздел: Привет, мир! Это тестовый файл с английскими и русскими
+символами. Числа: 1234567890 Символы: !@#$%^&*()
+
+Mixed Section: Hello, мир! Today is a хороший день. Python — это great
+language!

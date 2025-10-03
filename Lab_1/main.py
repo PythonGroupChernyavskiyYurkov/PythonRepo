@@ -3,10 +3,6 @@ import argparse
 import re
 
 def main():
-       import argparse
-import re
-
-def main():
        parser = argparse.ArgumentParser(description='File to read')
        parser.add_argument('FileDir',type = str,help='File directory')
        arg = parser.parse_args()
