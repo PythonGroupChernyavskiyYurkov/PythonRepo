@@ -26,7 +26,7 @@ def main():
                      print("количество символов без пробелов: ",len(fileContentNoSpaces))
 
                      #Второй пункт
-                     words=re.findall(r"\b[A-z]+\b", file_content) 
+                     words=re.findall(r"\b[а-яА-Яa-zA-Z]+\b", file_content) 
                      for word in words:
                             if word == ' ' or word =='':
                                    words.pop(words.index(word))
